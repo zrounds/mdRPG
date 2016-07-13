@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html> <head>
+<title>RESTful Interface Tester</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="rest-test.js"></script>
+</head>
+
+<body>
+<h1>RESTful Interface Tester</h1>
+
+<form id="restform">
+<select id="methodselect" name=method>
+  <option value="GET">GET</option>
+  <option value="POST">POST</option>
+</select>
+<select id="methodtype" name=methodtype>
+  <option value="CREATE">CREATE</option>
+  <option value="READ">READ</option>
+  <option value="UPDATE">UPDATE</option>
+  <option value="DELETE">DELETE</option>
+</select>
+<select id="objecttype" name=objecttype>
+  <option value="Option">Option</option>
+  <option value="StoryLocation">StoryLocation</option>
+  <option value="Story">Story</option>
+</select>
+
+<label>ID of Object<input style="width: 5em" type=text id=rest_url></label><br>
+<h3>Parameters</h3>
+<div id="params">
+<div>Name: <input class='pname' type=text> Value: <input class='pval' type=text></div>
+<div>Name: <input class='pname' type=text> Value: <input class='pval' type=text></div>
+<div>Name: <input class='pname' type=text> Value: <input class='pval' type=text></div>
+<div>Name: <input class='pname' type=text> Value: <input class='pval' type=text></div>
+</div>
+<div><button id="addparam" type=button>Add Parameter</button><button id="clearbutton" type=button>Clear Parameters</button></div>
+<div><button type=submit>Go</button></div>
+
+</form>
+
+<div id="results">
+  <div>Return Status: <span id="returnstatus"></span></div>
+  <div>Return Text:
+    <div id="returntext"></div>
+  </div>
+</div>
+
+</body> </html>

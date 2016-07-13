@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>mdRPG</title>
+</head>
+
+<body>
+	<h2>JSON Encoding</h2>
+	<p>The Json encodings encapsulate all the data for any given 
+		instance of a table as an array of all its fields. The keys are all 
+		strings with names similar if not equal to the names of their corresponding 
+		fields. The values are all either strings or integers.
+	</p>
+	 
+	 <h2> RESTful Interface Documentation</h2>
+	 
+	 <h3>URL Types: </h3>
+
+	<h4><em>GET Methods:</em></h4>
+		<ul>
+			<li>Read</li> 
+			<ul>
+				<li>
+					Default behaviour of GET method; requires a parameter named "ObjectType" set to one of our 3 ORM classes
+					and the unique ID of the desired resource as extra path info. It returns a json encoded array of all of the 
+					fields of the appropriate table as a public call to the correct ORM object.					
+				</li>
+			</ul>
+		</ul>
+		
+		<ul><li>Delete</li>
+			<ul>
+				<li>
+					Same requirements as Read, except an additional parameter named "delete" must be set to any value. Uses the 
+					automatic read that happens to create an ORM instantiation of the desired object and calls its internal delete method 
+					that removes the associated DB row and removes itself from memory as an object. The segment containing the check 
+					for "delete" will never be reached unless an object of the desired ID has already been read through the automatic 
+					call to read. This method returns true to the ajax call upon success. 
+				</li>
+			</ul>
+		</ul>
+	<h4><em>POST Methods:</em></h4>
+		<ul><li>Create</li>
+			<ul>
+				<li>
+					Requires a parameter "create" to be set to anything, "ObjectType" to be specified, and then every field of each specific 
+					element to be set in $_POST to an appropriate value for its type which are then sanitized, excluding the unique ID that 
+					will be calculated by finding the max id currently in the table and adding 1 to it. Though auto_increment would allow us 
+					to default to one and allow the DB to correct the index as needed, if an associated piece of the primary key (i.e. SID 
+					and initialLocation in Stories) has a reuse of the non-arbitrary value (i.e. initialLocation), an error will be thrown by 
+					the DB before the index is corrected and thus the entry has a distinct primary key; the correct id is thus calculated 
+					manually so that an otherwise valid input is not stopped by this unfortunate ordering of the database's logic. 
+					This method then instantiates the values submitted as an ORM object once the insert successfully completes and is 
+					returned as a json encoded array of all of its fields of with a public call to the correct ORM object.
+				</li>
+			</ul>
+		</ul>	
+		<ul><li>Update</li>
+			<ul>
+				<li>
+					Requires a parameter "update" to be set to anything, "ObjectType" to be specified, and the unique ID of the desired resource. 
+					It then it finds the object through a call to the ORM, it will call the public setters for any of that object's fields which 
+					have been set in $_POST (i.e. $_POST['title'] for Story) which are checked to be appropriate for their type and then sanitized 
+					as in Create. After all of the updates have been made to the ORM object (which updates the values in the database implicitly), 
+					a json encoded array of all of the values for the fields is returned, reflecting any changes made during the update process. 
+				</li>
+			</ul>
+		</ul>
+	 
+	 <p>You can demo the RESTful interface <a 
+href="http://wwwp.cs.unc.edu/Courses/comp426-f14/kmp/lec22/rest-test.html">here</a>.</p>
+</body>
+</html>
